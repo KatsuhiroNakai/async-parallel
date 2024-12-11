@@ -9,13 +9,18 @@ logger = logging.getLogger(__name__)
 
 
 def wait_one_second():
+    """1秒待つ"""
     time.sleep(1)
 
 
 async def wait_one_second_async():
+    """1秒待つ
+    非同期処理用
+    """
     await asyncio.sleep(1)
 
 
+### 同期処理
 def sync_main() -> float:
     """
     同期処理で1秒待つタスクを10回する
@@ -29,9 +34,14 @@ def sync_main() -> float:
     return process_time
 
 
+### 非同期処理の書き方あれこれ
 async def async_main() -> float:
-    """非同期処理で1秒待つタスクを10回する"""
+    """
+    非同期処理で1秒待つタスクを10回する
+    シンプルに
+    """
     start_time = time.perf_counter()
+    # wait_one_second_async()を10回分用意して、*で展開して非同期処理を実行
     await asyncio.gather(*(wait_one_second_async() for _ in range(10)))
 
     process_time = time.perf_counter() - start_time
@@ -46,6 +56,7 @@ async def async_main_with_progress() -> float:
     """
     start_time = time.perf_counter()
     tasks = [wait_one_second_async() for _ in range(10)]
+    # tqdmで進捗表示
     for f in tqdm(asyncio.as_completed(tasks), total=len(tasks), desc="Async Progress"):
         await f
 
@@ -59,9 +70,12 @@ async def async_main_use_tasks_list() -> float:
     tasksリストを使ってタスクリストを作成し、非同期実行する
     """
     start_time = time.perf_counter()
+
+    # タスクリストを作成
     tasks = []
     for _ in range(10):
         tasks.append(wait_one_second_async())
+    # *で展開して非同期処理を実行
     await asyncio.gather(*tasks)
 
     process_time = time.perf_counter() - start_time
@@ -73,6 +87,10 @@ def async_to_sync() -> float:
     """
     非同期関数を同期関数に変換する
     shapなど同期関数しか使えないライブラリを使う場合に使用する
+
+    複数の非同期処理を同期関数内部で非同期実行するには
+    それら非同期処理をまとめて非同期実行する関数を作成し、
+    それを同期関数内でasyncio.run()で実行する
     """
     start_time = time.perf_counter()
     asyncio.run(async_main())
