@@ -1,3 +1,8 @@
+###############################################
+# 非同期処理のサンプル
+# 同期処理と非同期処理の処理時間を比較する
+###############################################
+
 import asyncio
 import logging
 import time
@@ -20,7 +25,7 @@ async def wait_one_second_async():
     await asyncio.sleep(1)
 
 
-### 同期処理
+# 同期処理
 def sync_main() -> float:
     """
     同期処理で1秒待つタスクを10回する
@@ -34,7 +39,7 @@ def sync_main() -> float:
     return process_time
 
 
-### 非同期処理の書き方あれこれ
+# 非同期処理の書き方あれこれ
 async def async_main() -> float:
     """
     非同期処理で1秒待つタスクを10回する
