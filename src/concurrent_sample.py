@@ -12,11 +12,11 @@ def print_time_elapsed():
         time.sleep(1)
 
 
-def print_task_running():
+def print_task_running(interval_time: int):
     """スレッド/プロセス内で動作中であることを表示する関数"""
     while True:
         print("タスクは動作しています")
-        time.sleep(5)
+        time.sleep(interval_time)
 
 
 def main(use_multiprocessing):
@@ -25,12 +25,12 @@ def main(use_multiprocessing):
         print("マルチプロセスを使用します")
         with concurrent.futures.ProcessPoolExecutor(max_workers=2) as executor:
             executor.submit(print_time_elapsed)
-            executor.submit(print_task_running)
+            executor.submit(print_task_running, interval_time=5)
     else:
         print("マルチスレッドを使用します")
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             executor.submit(print_time_elapsed)
-            executor.submit(print_task_running)
+            executor.submit(print_task_running, interval_time=5)
 
 
 if __name__ == "__main__":

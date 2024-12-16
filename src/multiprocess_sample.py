@@ -16,17 +16,17 @@ def print_time_elapsed():
         time.sleep(1)
 
 
-def print_process_running():
+def print_process_running(interval_time: int):
     """プロセス内で動作中であることを表示する関数"""
     while True:
         print("プロセスは動作しています")
-        time.sleep(5)
+        time.sleep(interval_time)
 
 
 if __name__ == "__main__":
     # プロセスを2つ立ち上げる
     process1 = multiprocessing.Process(target=print_time_elapsed)
-    process2 = multiprocessing.Process(target=print_process_running)
+    process2 = multiprocessing.Process(target=print_process_running, kwargs={"interval_time": 5})
 
     # プロセスを開始する
     process1.start()
