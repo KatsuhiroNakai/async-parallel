@@ -15,11 +15,11 @@ def print_time_elapsed():
 
 
 @ray.remote
-def print_task_running():
+def print_task_running(interval_time: int):
     """スレッド/プロセス内で動作中であることを表示する関数"""
     while True:
         print("タスクは動作しています")
-        time.sleep(5)
+        time.sleep(interval_time)
 
 
 def main(num_cpus: int):
@@ -31,7 +31,7 @@ def main(num_cpus: int):
     """
     print(f"Rayを使用します (num_cpus={num_cpus})")
     ray.init(num_cpus=num_cpus)
-    ray.get([print_time_elapsed.remote(), print_task_running.remote()])
+    ray.get([print_time_elapsed.remote(), print_task_running.remote(interval_time=5)])
 
 
 if __name__ == "__main__":
