@@ -16,17 +16,17 @@ def print_time_elapsed():
         time.sleep(1)
 
 
-def print_thread_running():
+def print_thread_running(interval_time: int):
     """スレッド内で動作中であることを表示する関数"""
     while True:
         print("スレッドは動作しています")
-        time.sleep(5)
+        time.sleep(interval_time)
 
 
 if __name__ == "__main__":
     # スレッドを2つ立ち上げる
     thread1 = threading.Thread(target=print_time_elapsed)
-    thread2 = threading.Thread(target=print_thread_running)
+    thread2 = threading.Thread(target=print_thread_running, kwargs={"interval_time": 5})
 
     # スレッドを開始する
     thread1.start()
